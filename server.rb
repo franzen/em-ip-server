@@ -15,11 +15,12 @@ class RequestHandler < EM::Connection
   end
  
   def handle_http_request
-    p [@parser.env, @parser.body.string]
+    # p [@parser.env, @parser.body.string]
     keep_alive = @parser.persistent?
+
+    ip = @parser.env['HTTP_X_FORWARDED_FOR'] || "127.0.0.1" # X-Client-IP, HTTP_CLIENT_IP, X-Forwarded-For
  
-    data = "OK"
-    send_data("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: #{data.bytesize}\r\n#{ keep_alive  ? KEEPALIVE.clone : nil}\r\n#{data}")
+    send_data("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: #{ip.bytesize}\r\n#{ keep_alive  ? KEEPALIVE.clone : nil}\r\n#{ip}")
      
     if keep_alive
       post_init
