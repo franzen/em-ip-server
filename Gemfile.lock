@@ -13,5 +13,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  eventmachine
-  thin
+  eventmachine (~> 1.0.3)
+  thin (~> 1.6.2)
